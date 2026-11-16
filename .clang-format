@@ -1,0 +1,25 @@
+# clang-format configuration for annex (checked with clang-format 18).
+---
+Language: Cpp
+BasedOnStyle: Google
+Standard: c++20
+ColumnLimit: 100
+IndentWidth: 2
+PointerAlignment: Left
+DerivePointerAlignment: false
+
+# Includes: one block of standard/system headers (<...>), a blank line, then
+# the project's own "annex/..." headers. Each block is sorted alphabetically.
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  # Standard library and other system headers.
+  - Regex: '^<.*>$'
+    Priority: 1
+  # This project's public headers.
+  - Regex: '^"annex/.*"$'
+    Priority: 2
+  # Anything else in quotes (local/private headers).
+  - Regex: '^".*"$'
+    Priority: 3
+...
