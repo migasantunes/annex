@@ -1,0 +1,41 @@
+[build-system]
+# pybind11 2.13 is the first release with official Python 3.13 support.
+requires = ["scikit-build-core>=0.10", "pybind11>=2.13"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "annex"
+version = "0.1.0"
+description = "A vector search engine (approximate nearest neighbour) written from scratch in C++20"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "José Miguel Luís Antunes" }]
+dependencies = ["numpy"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+# Empty today: the harness only needs numpy, which is already a runtime
+# dependency. M2 adds h5py (dataset loader), hnswlib and faiss-cpu here.
+bench = []
+
+[tool.scikit-build]
+# The root CMakeLists.txt requires 3.24 (presets v6, PROJECT_IS_TOP_LEVEL).
+cmake.version = ">=3.24"
+cmake.build-type = "Release"
+# Pure-Python sources live in python/annex; the compiled annex._core is
+# installed next to them by python/CMakeLists.txt.
+wheel.packages = ["python/annex"]
+# Keep build trees out of the source directory; pip uses a temporary one.
+build-dir = ""
+
+[tool.scikit-build.cmake.define]
+ANNEX_BUILD_PYTHON = "ON"
+ANNEX_BUILD_TESTS = "OFF"
+ANNEX_BUILD_BENCH = "OFF"
+
+[tool.pytest.ini_options]
+testpaths = ["python/tests"]
+# Puts the repo root on sys.path so the harness tests can import `benchmarks`,
+# which is run from a checkout and is not part of the wheel.
+pythonpath = ["."]

@@ -1,0 +1,34 @@
+# --- C++ / CMake -------------------------------------------------------------
+build/
+CMakeUserPresets.json
+# Symlink/copy of build/compile_commands.json for clangd; root only.
+/compile_commands.json
+.cache/
+
+# --- Python ------------------------------------------------------------------
+_skbuild/
+dist/
+*.egg-info/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Compiled extension modules
+*.so
+*.pyd
+
+# --- Benchmarks --------------------------------------------------------------
+# Downloaded datasets are large and reproducible; never commit them.
+benchmarks/data/
+# Generated results; keep the directory itself via .gitkeep.
+benchmarks/results/*.json
+benchmarks/results/*.png
+!benchmarks/results/.gitkeep
+
+# --- Editors / OS ------------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
